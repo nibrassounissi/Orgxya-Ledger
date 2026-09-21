@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  OPERATEUR
+  VALIDATEUR
+}
+
+enum AccountStatus {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  publicId     String        @unique @default(uuid()) @map("public_id")
+  name         String?
+  email        String        @unique
+  passwordHash String        @map("password_hash")
+  role         Role
+  status       AccountStatus @default(PENDING) @map("status")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  reviewedById String?       @map("reviewed_by")
+  reviewer     User?         @relation("UserReviewer", fields: [reviewedById], references: [publicId])
+  reviewedUsers User[]       @relation("UserReviewer")
+  reviewedAt   DateTime?     @map("reviewed_at")
+
+  @@map("users")
+}
