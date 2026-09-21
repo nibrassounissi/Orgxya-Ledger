@@ -22,7 +22,7 @@ export default async function UsersPage() {
             Review account requests before granting access.
           </p>
         </div>
-        <UsersApprovalTable />
+        <UsersApprovalTable currentUserPublicId={session.userId} />
       </div>
     </div>
   );

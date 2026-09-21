@@ -21,6 +21,7 @@ export async function GET(request: NextRequest) {
     where: status ? { status } : undefined,
     select: {
       id: true,
+      publicId: true,
       name: true,
       email: true,
       role: true,

@@ -52,19 +52,12 @@ export default function UserDropdown({
     setIsSubDropdownOpen(false);
   };
 
-  const handleLogout = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoggingOut(true);
-
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-      router.replace("/signin");
-      router.refresh();
-    } finally {
-      setIsLoggingOut(false);
-    }
+  const handleLogout = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoggingOut(true);
+  await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+  window.location.href = "/signin";
   };
-
   return (
     <div className="relative">
       <button

@@ -16,6 +16,7 @@ type UserStatus = "PENDING" | "APPROVED" | "DECLINED" | "SUSPENDED";
 
 type ManagedUser = {
   id: number;
+  publicId: string;
   name: string | null;
   email: string;
   role: UserRole;
@@ -32,7 +33,11 @@ type ActionKind =
 
 type ActionState = { id: number; kind: ActionKind } | null;
 
-export default function UsersApprovalTable() {
+export default function UsersApprovalTable({
+  currentUserPublicId,
+}: {
+  currentUserPublicId: string;
+}) {
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [view, setView] = useState<"pending" | "all">("pending");
   const [loading, setLoading] = useState(true);
@@ -158,10 +163,16 @@ export default function UsersApprovalTable() {
                   const activeAction = actionState?.id === user.id ? actionState.kind : null;
                   const needsRole = activeAction === "approve" || activeAction === "role-change";
                   const needsConfirm = activeAction !== null;
+                  const isCurrentUser = user.publicId === currentUserPublicId;
 
                   return (
                     <TableRow key={user.id}>
-                      <TableCell className="px-5 py-4 text-start text-theme-sm text-gray-800 dark:text-white/90">{user.name || "Not set"}</TableCell>
+                      <TableCell className="px-5 py-4 text-start text-theme-sm text-gray-800 dark:text-white/90">
+                        {user.name || "Not set"}
+                        {isCurrentUser && (
+                          <span className="ms-2 text-theme-xs font-medium text-brand-500">(You)</span>
+                        )}
+                      </TableCell>
                       <TableCell className="px-5 py-4 text-start text-theme-sm text-gray-500 dark:text-gray-400">{user.email}</TableCell>
                       {view === "all" && <TableCell className="px-5 py-4 text-start text-theme-sm text-gray-500 dark:text-gray-400">{user.role}</TableCell>}
                       {view === "all" && <TableCell className="px-5 py-4 text-start text-theme-sm text-gray-500 dark:text-gray-400">{user.status}</TableCell>}
@@ -188,7 +199,7 @@ export default function UsersApprovalTable() {
                             <Button size="sm" onClick={() => beginAction(user.id, "approve")}>Approve</Button>
                             <Button size="sm" variant="outline" onClick={() => beginAction(user.id, "decline")}>Decline</Button>
                           </div>
-                        ) : user.status === "APPROVED" ? (
+                        ) : user.status === "APPROVED" && !isCurrentUser ? (
                           <div className="flex flex-wrap items-center justify-end gap-2">
                             <Button size="sm" onClick={() => beginAction(user.id, "role-change", user.role === "OPERATEUR" ? "VALIDATEUR" : "OPERATEUR")}>Change role</Button>
                             <Button size="sm" variant="outline" onClick={() => beginAction(user.id, "suspend")}>Suspend</Button>
