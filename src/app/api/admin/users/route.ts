@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 
-const statuses = ["PENDING", "APPROVED", "DECLINED"] as const;
+const statuses = ["PENDING", "APPROVED", "DECLINED", "SUSPENDED"] as const;
 
 export async function GET(request: NextRequest) {
   if (request.headers.get("x-user-role") !== "VALIDATEUR") {

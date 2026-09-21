@@ -16,6 +16,7 @@ enum AccountStatus {
   PENDING
   APPROVED
   DECLINED
+  SUSPENDED
 }
 
 model User {
