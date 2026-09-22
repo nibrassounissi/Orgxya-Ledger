@@ -41,6 +41,13 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  if (user.status === "SUSPENDED") {
+    return NextResponse.json(
+      { error: "Ce compte a été suspendu." },
+      { status: 403 }
+    );
+  }
+
   const token = await new SignJWT({ userId: user.publicId, role: user.role })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("8h")
