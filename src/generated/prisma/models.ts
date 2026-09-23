@@ -11,4 +11,6 @@
 export type * from './models/User'
 export type * from './models/Supplier'
 export type * from './models/TaxRate'
+export type * from './models/InvoicePurchase'
+export type * from './models/InvoicePurchaseItem'
 export type * from './commonInputTypes'

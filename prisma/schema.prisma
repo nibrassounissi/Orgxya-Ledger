@@ -62,6 +62,7 @@ model Supplier {
   birthDate          DateTime?    @map("birth_date") @db.Date
   taxRateId          Int?         @map("vat_rate_id")
   taxRate            TaxRate?     @relation(fields: [taxRateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  invoicePurchases   InvoicePurchase[]
   createdAt          DateTime     @default(now()) @map("created_at")
 
   @@map("suppliers")
@@ -88,4 +89,68 @@ model TaxRate {
   createdAt                   DateTime     @default(now()) @map("created_at")
 
   @@map("tax_rates")
+}
+
+enum InvoiceMode {
+  OCR_LLM
+  HANDWRITTEN
+}
+
+enum InvoiceWorkflowStatus {
+  EXTRACTED
+  TO_VERIFY
+  VALIDATED
+  EXPORTED
+}
+
+model InvoicePurchase {
+  id                     Int                    @id @default(autoincrement())
+  publicId               String                 @unique @default(uuid()) @map("public_id")
+  number                 String
+  invoiceDate            DateTime               @map("invoice_date") @db.Date
+  currency               String                 @db.VarChar(3)
+  totalBeforeTax         Decimal                @map("total_before_tax") @db.Decimal(10, 3)
+  stamp                  Decimal                @db.Decimal(10, 3)
+  taxAmount              Decimal                @map("tax_amount") @db.Decimal(10, 3)
+  totalAfterTax          Decimal                @map("total_after_tax_without_stamp") @db.Decimal(10, 3) @default(0)
+  totalAfterTaxWithStamp Decimal                @map("total_after_tax_with_stamp") @db.Decimal(10, 3) @default(0)
+  notes                  String?
+  dueDate                DateTime?              @map("due_date") @db.Date
+  customTaxes            Json?                  @map("custom_taxes")
+  isVatDeductible        Boolean                @default(false) @map("is_vat_deductible")
+
+  supplierId             Int                    @map("supplier_id")
+  supplier               Supplier               @relation(fields: [supplierId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  filePath                String?               @map("file_path")
+  mode                    InvoiceMode?
+  status                  InvoiceWorkflowStatus  @default(EXTRACTED)
+  validationErrors        Json?                 @map("validation_errors")
+  validatedById           String?               @map("validated_by")
+  validatedAt             DateTime?             @map("validated_at")
+
+  items                   InvoicePurchaseItem[]
+
+  createdAt               DateTime              @default(now()) @map("created_at")
+
+  @@map("invoices_purchases")
+}
+
+model InvoicePurchaseItem {
+  id             Int             @id @default(autoincrement())
+  publicId       String          @unique @default(uuid()) @map("public_id")
+  label          String
+  quantity       Decimal         @db.Decimal(10, 1)
+  unitPrice      Decimal         @map("unit_price") @db.Decimal(10, 3)
+  totalBeforeTax Decimal         @map("total_before_tax") @db.Decimal(10, 3)
+  taxRate        Decimal         @map("tax_rate") @db.Decimal(4, 2)
+  taxAmount      Decimal         @map("tax_amount") @db.Decimal(10, 3)
+  totalAfterTax  Decimal         @map("total_after_tax") @db.Decimal(10, 3)
+
+  invoiceId      Int             @map("invoice_id")
+  invoice        InvoicePurchase @relation(fields: [invoiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  @@map("invoice_items_purchases")
 }

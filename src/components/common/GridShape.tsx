@@ -9,6 +9,8 @@ export default function GridShape() {
           height={254}
           src="/images/shape/grid-01.svg"
           alt="grid"
+          className="h-auto w-full"
+          loading="eager"
         />
       </div>
       <div className="absolute start-0 bottom-0 -z-1 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
@@ -17,6 +19,7 @@ export default function GridShape() {
           height={254}
           src="/images/shape/grid-01.svg"
           alt="grid"
+          className="h-auto w-full"
         />
       </div>
     </>

@@ -32,3 +32,13 @@ export type Supplier = Prisma.SupplierModel
  * 
  */
 export type TaxRate = Prisma.TaxRateModel
+/**
+ * Model InvoicePurchase
+ * 
+ */
+export type InvoicePurchase = Prisma.InvoicePurchaseModel
+/**
+ * Model InvoicePurchaseItem
+ * 
+ */
+export type InvoicePurchaseItem = Prisma.InvoicePurchaseItemModel

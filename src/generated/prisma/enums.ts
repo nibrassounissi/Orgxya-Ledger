@@ -42,3 +42,21 @@ export const TaxRateType = {
 } as const
 
 export type TaxRateType = (typeof TaxRateType)[keyof typeof TaxRateType]
+
+
+export const InvoiceMode = {
+  OCR_LLM: 'OCR_LLM',
+  HANDWRITTEN: 'HANDWRITTEN'
+} as const
+
+export type InvoiceMode = (typeof InvoiceMode)[keyof typeof InvoiceMode]
+
+
+export const InvoiceWorkflowStatus = {
+  EXTRACTED: 'EXTRACTED',
+  TO_VERIFY: 'TO_VERIFY',
+  VALIDATED: 'VALIDATED',
+  EXPORTED: 'EXPORTED'
+} as const
+
+export type InvoiceWorkflowStatus = (typeof InvoiceWorkflowStatus)[keyof typeof InvoiceWorkflowStatus]

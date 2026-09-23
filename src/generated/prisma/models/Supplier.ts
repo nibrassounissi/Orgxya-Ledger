@@ -341,6 +341,7 @@ export type SupplierWhereInput = {
   taxRateId?: Prisma.IntNullableFilter<"Supplier"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Supplier"> | Date | string
   taxRate?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
+  invoicePurchases?: Prisma.InvoicePurchaseListRelationFilter
 }
 
 export type SupplierOrderByWithRelationInput = {
@@ -365,6 +366,7 @@ export type SupplierOrderByWithRelationInput = {
   taxRateId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   taxRate?: Prisma.TaxRateOrderByWithRelationInput
+  invoicePurchases?: Prisma.InvoicePurchaseOrderByRelationAggregateInput
 }
 
 export type SupplierWhereUniqueInput = Prisma.AtLeast<{
@@ -392,6 +394,7 @@ export type SupplierWhereUniqueInput = Prisma.AtLeast<{
   taxRateId?: Prisma.IntNullableFilter<"Supplier"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Supplier"> | Date | string
   taxRate?: Prisma.XOR<Prisma.TaxRateNullableScalarRelationFilter, Prisma.TaxRateWhereInput> | null
+  invoicePurchases?: Prisma.InvoicePurchaseListRelationFilter
 }, "id" | "publicId">
 
 export type SupplierOrderByWithAggregationInput = {
@@ -468,6 +471,7 @@ export type SupplierCreateInput = {
   birthDate?: Date | string | null
   createdAt?: Date | string
   taxRate?: Prisma.TaxRateCreateNestedOneWithoutSuppliersInput
+  invoicePurchases?: Prisma.InvoicePurchaseCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierUncheckedCreateInput = {
@@ -491,6 +495,7 @@ export type SupplierUncheckedCreateInput = {
   birthDate?: Date | string | null
   taxRateId?: number | null
   createdAt?: Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseUncheckedCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierUpdateInput = {
@@ -513,6 +518,7 @@ export type SupplierUpdateInput = {
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   taxRate?: Prisma.TaxRateUpdateOneWithoutSuppliersNestedInput
+  invoicePurchases?: Prisma.InvoicePurchaseUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierUncheckedUpdateInput = {
@@ -536,6 +542,7 @@ export type SupplierUncheckedUpdateInput = {
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   taxRateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierCreateManyInput = {
@@ -694,6 +701,11 @@ export type SupplierOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type SupplierScalarRelationFilter = {
+  is?: Prisma.SupplierWhereInput
+  isNot?: Prisma.SupplierWhereInput
+}
+
 export type EnumSupplierTypeFieldUpdateOperationsInput = {
   set?: $Enums.SupplierType
 }
@@ -748,6 +760,20 @@ export type SupplierUncheckedUpdateManyWithoutTaxRateNestedInput = {
   deleteMany?: Prisma.SupplierScalarWhereInput | Prisma.SupplierScalarWhereInput[]
 }
 
+export type SupplierCreateNestedOneWithoutInvoicePurchasesInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedCreateWithoutInvoicePurchasesInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutInvoicePurchasesInput
+  connect?: Prisma.SupplierWhereUniqueInput
+}
+
+export type SupplierUpdateOneRequiredWithoutInvoicePurchasesNestedInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedCreateWithoutInvoicePurchasesInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutInvoicePurchasesInput
+  upsert?: Prisma.SupplierUpsertWithoutInvoicePurchasesInput
+  connect?: Prisma.SupplierWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupplierUpdateToOneWithWhereWithoutInvoicePurchasesInput, Prisma.SupplierUpdateWithoutInvoicePurchasesInput>, Prisma.SupplierUncheckedUpdateWithoutInvoicePurchasesInput>
+}
+
 export type SupplierCreateWithoutTaxRateInput = {
   publicId?: string
   name: string
@@ -767,6 +793,7 @@ export type SupplierCreateWithoutTaxRateInput = {
   personalIdNumber?: string | null
   birthDate?: Date | string | null
   createdAt?: Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierUncheckedCreateWithoutTaxRateInput = {
@@ -789,6 +816,7 @@ export type SupplierUncheckedCreateWithoutTaxRateInput = {
   personalIdNumber?: string | null
   birthDate?: Date | string | null
   createdAt?: Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseUncheckedCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierCreateOrConnectWithoutTaxRateInput = {
@@ -843,6 +871,112 @@ export type SupplierScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Supplier"> | Date | string
 }
 
+export type SupplierCreateWithoutInvoicePurchasesInput = {
+  publicId?: string
+  name: string
+  address?: string | null
+  zipCode?: string | null
+  city: string
+  country: string
+  phoneNumber?: string | null
+  email?: string | null
+  website?: string | null
+  bankDetails?: string | null
+  vatNumber?: string | null
+  categoryCode?: string | null
+  vatCode?: string | null
+  secondaryEstNumber?: string | null
+  type: $Enums.SupplierType
+  personalIdNumber?: string | null
+  birthDate?: Date | string | null
+  createdAt?: Date | string
+  taxRate?: Prisma.TaxRateCreateNestedOneWithoutSuppliersInput
+}
+
+export type SupplierUncheckedCreateWithoutInvoicePurchasesInput = {
+  id?: number
+  publicId?: string
+  name: string
+  address?: string | null
+  zipCode?: string | null
+  city: string
+  country: string
+  phoneNumber?: string | null
+  email?: string | null
+  website?: string | null
+  bankDetails?: string | null
+  vatNumber?: string | null
+  categoryCode?: string | null
+  vatCode?: string | null
+  secondaryEstNumber?: string | null
+  type: $Enums.SupplierType
+  personalIdNumber?: string | null
+  birthDate?: Date | string | null
+  taxRateId?: number | null
+  createdAt?: Date | string
+}
+
+export type SupplierCreateOrConnectWithoutInvoicePurchasesInput = {
+  where: Prisma.SupplierWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedCreateWithoutInvoicePurchasesInput>
+}
+
+export type SupplierUpsertWithoutInvoicePurchasesInput = {
+  update: Prisma.XOR<Prisma.SupplierUpdateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedUpdateWithoutInvoicePurchasesInput>
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedCreateWithoutInvoicePurchasesInput>
+  where?: Prisma.SupplierWhereInput
+}
+
+export type SupplierUpdateToOneWithWhereWithoutInvoicePurchasesInput = {
+  where?: Prisma.SupplierWhereInput
+  data: Prisma.XOR<Prisma.SupplierUpdateWithoutInvoicePurchasesInput, Prisma.SupplierUncheckedUpdateWithoutInvoicePurchasesInput>
+}
+
+export type SupplierUpdateWithoutInvoicePurchasesInput = {
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankDetails?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryEstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumSupplierTypeFieldUpdateOperationsInput | $Enums.SupplierType
+  personalIdNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  taxRate?: Prisma.TaxRateUpdateOneWithoutSuppliersNestedInput
+}
+
+export type SupplierUncheckedUpdateWithoutInvoicePurchasesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  publicId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bankDetails?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vatCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryEstNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumSupplierTypeFieldUpdateOperationsInput | $Enums.SupplierType
+  personalIdNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  taxRateId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type SupplierCreateManyTaxRateInput = {
   id?: number
   publicId?: string
@@ -884,6 +1018,7 @@ export type SupplierUpdateWithoutTaxRateInput = {
   personalIdNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierUncheckedUpdateWithoutTaxRateInput = {
@@ -906,6 +1041,7 @@ export type SupplierUncheckedUpdateWithoutTaxRateInput = {
   personalIdNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  invoicePurchases?: Prisma.InvoicePurchaseUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierUncheckedUpdateManyWithoutTaxRateInput = {
@@ -931,6 +1067,35 @@ export type SupplierUncheckedUpdateManyWithoutTaxRateInput = {
 }
 
 
+/**
+ * Count Type SupplierCountOutputType
+ */
+
+export type SupplierCountOutputType = {
+  invoicePurchases: number
+}
+
+export type SupplierCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  invoicePurchases?: boolean | SupplierCountOutputTypeCountInvoicePurchasesArgs
+}
+
+/**
+ * SupplierCountOutputType without action
+ */
+export type SupplierCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierCountOutputType
+   */
+  select?: Prisma.SupplierCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SupplierCountOutputType without action
+ */
+export type SupplierCountOutputTypeCountInvoicePurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InvoicePurchaseWhereInput
+}
+
 
 export type SupplierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -954,6 +1119,8 @@ export type SupplierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   taxRateId?: boolean
   createdAt?: boolean
   taxRate?: boolean | Prisma.Supplier$taxRateArgs<ExtArgs>
+  invoicePurchases?: boolean | Prisma.Supplier$invoicePurchasesArgs<ExtArgs>
+  _count?: boolean | Prisma.SupplierCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["supplier"]>
 
 export type SupplierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1030,6 +1197,8 @@ export type SupplierSelectScalar = {
 export type SupplierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "publicId" | "name" | "address" | "zipCode" | "city" | "country" | "phoneNumber" | "email" | "website" | "bankDetails" | "vatNumber" | "categoryCode" | "vatCode" | "secondaryEstNumber" | "type" | "personalIdNumber" | "birthDate" | "taxRateId" | "createdAt", ExtArgs["result"]["supplier"]>
 export type SupplierInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   taxRate?: boolean | Prisma.Supplier$taxRateArgs<ExtArgs>
+  invoicePurchases?: boolean | Prisma.Supplier$invoicePurchasesArgs<ExtArgs>
+  _count?: boolean | Prisma.SupplierCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SupplierIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   taxRate?: boolean | Prisma.Supplier$taxRateArgs<ExtArgs>
@@ -1042,6 +1211,7 @@ export type $SupplierPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Supplier"
   objects: {
     taxRate: Prisma.$TaxRatePayload<ExtArgs> | null
+    invoicePurchases: Prisma.$InvoicePurchasePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1459,6 +1629,7 @@ readonly fields: SupplierFieldRefs;
 export interface Prisma__SupplierClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   taxRate<T extends Prisma.Supplier$taxRateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$taxRateArgs<ExtArgs>>): Prisma.Prisma__TaxRateClient<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  invoicePurchases<T extends Prisma.Supplier$invoicePurchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$invoicePurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1925,6 +2096,30 @@ export type Supplier$taxRateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   include?: Prisma.TaxRateInclude<ExtArgs> | null
   where?: Prisma.TaxRateWhereInput
+}
+
+/**
+ * Supplier.invoicePurchases
+ */
+export type Supplier$invoicePurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InvoicePurchase
+   */
+  select?: Prisma.InvoicePurchaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InvoicePurchase
+   */
+  omit?: Prisma.InvoicePurchaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoicePurchaseInclude<ExtArgs> | null
+  where?: Prisma.InvoicePurchaseWhereInput
+  orderBy?: Prisma.InvoicePurchaseOrderByWithRelationInput | Prisma.InvoicePurchaseOrderByWithRelationInput[]
+  cursor?: Prisma.InvoicePurchaseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InvoicePurchaseScalarFieldEnum | Prisma.InvoicePurchaseScalarFieldEnum[]
 }
 
 /**
