@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
+import { matchSupplier } from "@/lib/supplierMatching";
 import { invoiceTotals, parseInvoiceInput } from "./validation";
 
 const invoiceInclude = {
@@ -35,12 +36,36 @@ export async function POST(request: NextRequest) {
   }
 
   const input = result.data;
-  const supplier = await prisma.supplier.findUnique({
-    where: { id: input.supplierId },
-    select: { id: true },
-  });
-  if (!supplier) {
-    return NextResponse.json({ error: "Le supplierId indiqué est invalide." }, { status: 400 });
+  let supplierId = input.supplierId;
+
+  if (supplierId === undefined) {
+    const supplierMatch = await matchSupplier({
+      name: input.supplierName ?? "",
+      vatNumber: input.supplierVatNumber,
+    });
+
+    if (!supplierMatch.match) {
+      return NextResponse.json(
+        {
+          error: "Aucun fournisseur correspondant trouvé.",
+          matchType: supplierMatch.matchType,
+          suggestions: supplierMatch.suggestion
+            ? [supplierMatch.suggestion]
+            : [],
+        },
+        { status: 422 }
+      );
+    }
+
+    supplierId = supplierMatch.match.id;
+  } else {
+    const supplier = await prisma.supplier.findUnique({
+      where: { id: supplierId },
+      select: { id: true },
+    });
+    if (!supplier) {
+      return NextResponse.json({ error: "Le supplierId indiqué est invalide." }, { status: 400 });
+    }
   }
 
   const stamp = input.stamp ?? new Prisma.Decimal(0);
@@ -57,7 +82,7 @@ export async function POST(request: NextRequest) {
       ...(input.dueDate !== undefined ? { dueDate: input.dueDate } : {}),
       ...(input.customTaxes !== undefined ? { customTaxes: input.customTaxes ?? Prisma.JsonNull } : {}),
       ...(input.isVatDeductible !== undefined ? { isVatDeductible: input.isVatDeductible } : {}),
-      supplier: { connect: { id: input.supplierId! } },
+      supplier: { connect: { id: supplierId } },
       ...(input.filePath !== undefined ? { filePath: input.filePath } : {}),
       ...(input.mode !== undefined ? { mode: input.mode } : {}),
       ...(input.status !== undefined ? { status: input.status } : {}),

@@ -42,6 +42,7 @@
       "addProduct": "Add Product",
       "billing": "Billing",
       "invoices": "Invoices",
+      "suppliers": "Suppliers",
       "singleInvoice": "Single Invoice",
       "createInvoice": "Create Invoice",
       "transactions": "Transactions",

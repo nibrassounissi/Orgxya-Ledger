@@ -24,6 +24,8 @@ export type InvoiceInput = {
   customTaxes?: Prisma.InputJsonValue | null;
   isVatDeductible?: boolean;
   supplierId?: number;
+  supplierName?: string;
+  supplierVatNumber?: string;
   filePath?: string | null;
   mode?: InvoiceMode | null;
   status?: InvoiceWorkflowStatus;
@@ -101,7 +103,7 @@ export function parseInvoiceInput(body: unknown, partial = false): ValidationRes
   const input = body as Record<string, unknown>;
   const data: InvoiceInput = {};
 
-  for (const field of ["number", "invoiceDate", "currency", "supplierId"] as const) {
+  for (const field of ["number", "invoiceDate", "currency"] as const) {
     if (!partial && input[field] === undefined) {
       return { error: `Le champ ${field} est requis.` };
     }
@@ -139,6 +141,24 @@ export function parseInvoiceInput(body: unknown, partial = false): ValidationRes
       return { error: "Le champ supplierId doit être un identifiant entier valide." };
     }
     data.supplierId = input.supplierId;
+  }
+
+  for (const field of ["supplierName", "supplierVatNumber"] as const) {
+    if (input[field] !== undefined) {
+      if (typeof input[field] !== "string" || input[field].trim() === "") {
+        return { error: `Le champ ${field} doit être une chaîne non vide.` };
+      }
+      data[field] = input[field].trim();
+    }
+  }
+
+  if (
+    !partial &&
+    input.supplierId === undefined &&
+    input.supplierName === undefined &&
+    input.supplierVatNumber === undefined
+  ) {
+    return { error: "Le champ supplierId ou les informations fournisseur sont requis." };
   }
 
   if (input.stamp !== undefined) {

@@ -10,6 +10,7 @@ import {
   GridIcon,
   HorizontaLDots,
   PageIcon,
+  TableIcon,
   UserCircleIcon,
 } from "../icons/index";
 
@@ -38,6 +39,16 @@ const navItems: NavItem[] = [
     icon: <UserCircleIcon />,
     key: "userProfile",
     path: "/profile",
+  },
+  {
+    icon: <PageIcon />,
+    key: "invoices",
+    path: "/invoices",
+  },
+  {
+    icon: <TableIcon />,
+    key: "suppliers",
+    path: "/suppliers",
   },
   {
     key: "pages",
