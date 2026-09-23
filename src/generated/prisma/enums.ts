@@ -25,3 +25,20 @@ export const AccountStatus = {
 } as const
 
 export type AccountStatus = (typeof AccountStatus)[keyof typeof AccountStatus]
+
+
+export const SupplierType = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  LEGAL: 'LEGAL'
+} as const
+
+export type SupplierType = (typeof SupplierType)[keyof typeof SupplierType]
+
+
+export const TaxRateType = {
+  VAT: 'VAT',
+  CORPORATE_TAX: 'CORPORATE_TAX',
+  OTHER: 'OTHER'
+} as const
+
+export type TaxRateType = (typeof TaxRateType)[keyof typeof TaxRateType]

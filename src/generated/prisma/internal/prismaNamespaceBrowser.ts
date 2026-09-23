@@ -51,7 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  User: 'User'
+  User: 'User',
+  Supplier: 'Supplier',
+  TaxRate: 'TaxRate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,6 +86,49 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const SupplierScalarFieldEnum = {
+  id: 'id',
+  publicId: 'publicId',
+  name: 'name',
+  address: 'address',
+  zipCode: 'zipCode',
+  city: 'city',
+  country: 'country',
+  phoneNumber: 'phoneNumber',
+  email: 'email',
+  website: 'website',
+  bankDetails: 'bankDetails',
+  vatNumber: 'vatNumber',
+  categoryCode: 'categoryCode',
+  vatCode: 'vatCode',
+  secondaryEstNumber: 'secondaryEstNumber',
+  type: 'type',
+  personalIdNumber: 'personalIdNumber',
+  birthDate: 'birthDate',
+  taxRateId: 'taxRateId',
+  createdAt: 'createdAt'
+} as const
+
+export type SupplierScalarFieldEnum = (typeof SupplierScalarFieldEnum)[keyof typeof SupplierScalarFieldEnum]
+
+
+export const TaxRateScalarFieldEnum = {
+  id: 'id',
+  publicId: 'publicId',
+  value: 'value',
+  isFreeAmount: 'isFreeAmount',
+  name: 'name',
+  type: 'type',
+  operationCode: 'operationCode',
+  isDefault: 'isDefault',
+  isAppliedToBasePlusSpecific: 'isAppliedToBasePlusSpecific',
+  countryCode: 'countryCode',
+  createdAt: 'createdAt'
+} as const
+
+export type TaxRateScalarFieldEnum = (typeof TaxRateScalarFieldEnum)[keyof typeof TaxRateScalarFieldEnum]
 
 
 export const SortOrder = {

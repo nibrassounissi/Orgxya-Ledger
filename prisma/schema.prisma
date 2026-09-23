@@ -35,3 +35,57 @@ model User {
 
   @@map("users")
 }
+
+enum SupplierType {
+  INDIVIDUAL
+  LEGAL
+}
+
+model Supplier {
+  id                 Int          @id @default(autoincrement())
+  publicId           String       @unique @default(uuid()) @map("public_id")
+  name               String
+  address            String?
+  zipCode            String?      @map("zip_code")
+  city               String
+  country            String
+  phoneNumber        String?      @map("phone_number")
+  email              String?
+  website            String?
+  bankDetails        String?      @map("bank_details")
+  vatNumber          String?      @map("vat_number")
+  categoryCode       String?      @map("category_code")
+  vatCode            String?      @map("vat_code")
+  secondaryEstNumber String?      @map("secondary_est_number")
+  type               SupplierType
+  personalIdNumber   String?      @map("personal_id_number")
+  birthDate          DateTime?    @map("birth_date") @db.Date
+  taxRateId          Int?         @map("vat_rate_id")
+  taxRate            TaxRate?     @relation(fields: [taxRateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt          DateTime     @default(now()) @map("created_at")
+
+  @@map("suppliers")
+}
+
+enum TaxRateType {
+  VAT
+  CORPORATE_TAX
+  OTHER
+}
+
+model TaxRate {
+  id                          Int          @id @default(autoincrement())
+  publicId                    String       @unique @default(uuid()) @map("public_id")
+  value                       Decimal      @map("rate") @db.Decimal(4, 2)
+  isFreeAmount                Boolean      @default(false) @map("is_free_amount")
+  name                        String
+  type                        TaxRateType
+  operationCode               String?     @map("operation_code")
+  isDefault                   Boolean      @default(false) @map("is_default")
+  isAppliedToBasePlusSpecific Boolean      @default(false) @map("is_applied_to_base_plus_specific")
+  countryCode                 String       @map("country_code")
+  suppliers                   Supplier[]
+  createdAt                   DateTime     @default(now()) @map("created_at")
+
+  @@map("tax_rates")
+}
