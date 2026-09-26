@@ -233,8 +233,11 @@ const AppSidebar: React.FC<{ role: string }> = ({ role }) => {
 
   // const isActive = (path: string) => path === pathname;
 
-  const isActive = useCallback((path: string) => path === pathname, [pathname]);
-
+const isActive = useCallback(
+  (path: string) =>
+    path === pathname || (path !== "/" && pathname.startsWith(`${path}/`)),
+  [pathname],
+);
   useEffect(() => {
     // Check if the current path matches any submenu item
     let submenuMatched = false;
